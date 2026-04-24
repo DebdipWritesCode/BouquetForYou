@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- back-left petal -->
+  <path d="M14 16 C9 22 8 32 12 42 C16 50 22 54 27 52 C32 50 32 42 29 32 C26 22 20 14 14 16 Z"
+    fill="#FFD2D9" stroke="#E5697D" stroke-width="3" stroke-linejoin="round"/>
+  <!-- back-right petal -->
+  <path d="M50 16 C55 22 56 32 52 42 C48 50 42 54 37 52 C32 50 32 42 35 32 C38 22 44 14 50 16 Z"
+    fill="#FFD2D9" stroke="#E5697D" stroke-width="3" stroke-linejoin="round"/>
+  <!-- top center petal -->
+  <ellipse cx="32" cy="18" rx="12" ry="13" fill="#FFD2D9" stroke="#E5697D" stroke-width="3"/>
+  <!-- big front petal -->
+  <ellipse cx="32" cy="38" rx="16" ry="20" fill="#FFB6C1" stroke="#E5697D" stroke-width="3"/>
+  <!-- shine -->
+  <ellipse cx="25" cy="32" rx="3" ry="3.5" fill="#FFFFFF" opacity="0.55"/>
+</svg>
