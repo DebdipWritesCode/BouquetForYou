@@ -53,7 +53,10 @@ export function useFlowerAudio(src: string | null | undefined) {
       const startTime = performance.now();
       const tick = (now: number) => {
         const t = Math.min(1, (now - startTime) / FADE_OUT_MS);
-        audio.volume = startVol * (1 - t);
+        // Defensive clamp: RAF's `now` can occasionally be slightly earlier
+        // than `startTime` (RAF timestamp is the frame start, not wall time),
+        // which can push the computed volume fractionally negative.
+        audio.volume = Math.max(0, Math.min(1, startVol * (1 - t)));
         if (t < 1) {
           fadeRafRef.current = requestAnimationFrame(tick);
         } else {
@@ -79,7 +82,7 @@ export function useFlowerAudio(src: string | null | undefined) {
       const fadeStart = performance.now();
       const fadeIn = (now: number) => {
         const t = Math.min(1, (now - fadeStart) / FADE_IN_MS);
-        audio.volume = PLAY_VOLUME * t;
+        audio.volume = Math.max(0, Math.min(1, PLAY_VOLUME * t));
         if (t < 1) {
           fadeRafRef.current = requestAnimationFrame(fadeIn);
         } else {
