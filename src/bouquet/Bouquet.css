@@ -1,0 +1,57 @@
+.bouquet-stage {
+  position: relative;
+  width: 100%;
+  min-height: 100svh;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+/* Soft pastel halo behind the bouquet */
+.bouquet-stage__halo {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 70%, rgba(255, 222, 232, 0.85) 0%, rgba(255, 222, 232, 0) 55%),
+    radial-gradient(ellipse at 18% 22%, rgba(255, 240, 220, 0.6) 0%, rgba(255, 240, 220, 0) 45%),
+    radial-gradient(ellipse at 82% 28%, rgba(220, 220, 255, 0.55) 0%, rgba(220, 220, 255, 0) 50%);
+  filter: blur(8px);
+}
+
+.bouquet {
+  position: relative;
+  /* The bouquet area: scales with viewport but stays cozy */
+  width: min(560px, 92vw);
+  aspect-ratio: 5 / 6;
+  margin-top: auto;
+  margin-bottom: 0;
+}
+
+/* Each flower lives inside a positioned slot so we can compose
+   bouquet-relative coords with per-flower scale/rotate. */
+.bouquet__slot {
+  position: absolute;
+  width: 41%;
+  aspect-ratio: 221 / 170;
+  /* Center the slot on its (left, top) coords, then apply per-flower
+     scale + rotate. Order matters: translate first so rotation pivots on
+     the flower's own center rather than the bouquet origin. */
+  transform: translate(-50%, -50%)
+             scale(var(--slot-scale, 1))
+             rotate(var(--slot-rotate, 0deg));
+  transform-origin: 50% 50%;
+}
+
+@media (max-width: 600px) {
+  .bouquet {
+    width: 96vw;
+  }
+  .bouquet__slot { width: 44%; }
+}
+
+@media (max-height: 720px) {
+  .bouquet { aspect-ratio: 5 / 5.4; }
+}

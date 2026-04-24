@@ -1,0 +1,108 @@
+.flower {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.flower:focus-visible {
+  outline: 2px solid var(--petal-stroke);
+  outline-offset: 6px;
+  border-radius: 12px;
+}
+
+/* Outer wrapper carries the idle float so it doesn't fight the hover scale. */
+.flower__floater {
+  display: block;
+  width: 100%;
+  height: 100%;
+  animation: flower-float 6s ease-in-out infinite;
+  animation-delay: var(--idle-delay, 0s);
+  will-change: transform;
+}
+
+/* Inner SVG carries the hover scale + glow so the two transforms compose. */
+.flower__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 6px 8px rgba(80, 50, 80, 0.18));
+  transition: transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    filter 400ms ease-out;
+  will-change: transform, filter;
+}
+
+.flower:hover .flower__svg,
+.flower:focus-visible .flower__svg {
+  transform: scale(1.07);
+  filter: drop-shadow(0 8px 14px var(--petal-glow))
+    drop-shadow(0 0 18px var(--petal-glow));
+}
+
+/* All four petals share fill/stroke from CSS vars so we have one component */
+.petal {
+  fill: var(--petal-fill);
+  stroke: var(--petal-stroke);
+  stroke-width: 6;
+  transform-box: fill-box;
+  transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 500ms ease-out;
+  will-change: transform, opacity;
+}
+
+.petal--top    { transform-origin: 50% 100%; }
+.petal--left   { transform-origin: 100% 90%; }
+.petal--right  { transform-origin: 0% 90%; }
+.petal--center { transform-origin: 50% 50%; }
+
+.petal__shine {
+  transition: opacity 400ms ease-out;
+}
+
+/* ----- unfold state ----- */
+.flower--open .flower__floater {
+  animation-play-state: paused;
+}
+.flower--open .flower__svg {
+  filter: drop-shadow(0 10px 20px var(--petal-glow));
+}
+
+.flower--open .petal--top {
+  transform: rotate(-22deg) translateY(-6px);
+}
+.flower--open .petal--left {
+  transform: rotate(-32deg) translate(-4px, 4px);
+}
+.flower--open .petal--right {
+  transform: rotate(32deg) translate(4px, 4px);
+}
+.flower--open .petal--center {
+  transform: scale(0.78) translateY(8px);
+  opacity: 0.85;
+}
+.flower--open .petal__shine {
+  opacity: 0;
+}
+
+/* ----- idle "alive" floating ----- */
+@keyframes flower-float {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-6px) scale(1.015);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flower__floater { animation: none; }
+  .petal { transition: opacity 300ms ease-out; }
+}
